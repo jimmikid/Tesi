@@ -41,9 +41,8 @@ Matrice* matrice_piu_scalare(const Matrice* a, double scalare);
 //Prototipo Trasposta Matrice
 Matrice* trasposta_matrice(const Matrice* in);
 
-
 //Prototipo funzione Fattorizzazione Cholesky
-/*TO DO*/
+Matrice* cholesky(const Matrice* in);
 
 //Prototipo funzione di stampa elementi
 void stampa_matrice(const Matrice* in);

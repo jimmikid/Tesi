@@ -138,6 +138,30 @@ Matrice* trasposta_matrice(const Matrice* in)
 	return output;
 }
 
+//Fattorizzazione di choleski
+Matrice* cholesky(const Matrice* in)
+{
+	if (in->colonne != in->righe) return NULL;
+	Matrice* L = alloca_matrice(in->colonne, in->colonne);
+
+	for (int i = 0; i != in->colonne; ++i)
+	{
+		for (int j = 0; j < (i + 1); ++j)
+		{
+			double s = 0.0;
+			for (int k = 0; k < j; ++k)
+			{
+				s += rest_val(L, k, i) * rest_val(L, k, j);
+			}
+
+			imposta_valori(L, j, i, (i == j) ?
+				sqrt(rest_val(in, i, j) - s) :
+				1.0 / rest_val(L, j, j) * (rest_val(in, j, i) - s));
+		}
+	}
+	return L;
+}
+
 //Stampa elementi della matrice
 void stampa_matrice(const Matrice* in)
 {

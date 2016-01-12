@@ -14,6 +14,14 @@ typedef struct Matrice
 }
 Matrice;
 
+//Definizione della struttura autovalori
+typedef struct Autovalori2x2
+{
+	bool successo;
+	double lambda1;
+	double lambda2;
+}Autovalori2x2;
+
 //Prototipo funzione di allocazione di una matrice
 Matrice* alloca_matrice(int colonne, int righe);
 
@@ -40,6 +48,15 @@ Matrice* matrice_piu_scalare(const Matrice* a, double scalare);
 
 //Prototipo Trasposta Matrice
 Matrice* trasposta_matrice(const Matrice* in);
+
+//Prototipo Inversa Matrice 2x2
+Matrice* inverti_matrice_2x2(const Matrice* in);
+
+//Prototipo funzione trasforma matrice in vettore colonna
+Matrice* trasforma_in_vettore(const Matrice* in);
+
+//Prototipo funzione calcolo autovalori di una 2x2
+Autovalori2x2 autovalori_matrice(Matrice* in);
 
 //Prototipo funzione Fattorizzazione Cholesky
 Matrice* cholesky(const Matrice* in);

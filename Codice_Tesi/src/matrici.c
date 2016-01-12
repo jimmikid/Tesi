@@ -23,7 +23,7 @@ Matrice* alloca_matrice(int colonne, int righe)
 	return output;
 }
 
-//copia matrice
+//Copia matrice
 Matrice* copia_matrice(Matrice* in)
 {
 	Matrice* output = alloca_matrice(in->colonne, in->righe);
@@ -70,7 +70,7 @@ Matrice* moltiplica_matrici(const Matrice* a, const Matrice* b)
 	return output;
 }
 
-//somma Matrice + Matrice
+//Somma Matrice + Matrice
 Matrice* somma_matrici(const Matrice* a, const Matrice* b)
 {
 	if (a->colonne != b->colonne) return NULL;
@@ -138,28 +138,41 @@ Matrice* trasposta_matrice(const Matrice* in)
 	return output;
 }
 
-//Fattorizzazione di choleski
-Matrice* cholesky(const Matrice* in)
+//Inversa Matrice 2x2
+Matrice* inverti_matrice_2x2(const Matrice* in)
 {
-	if (in->colonne != in->righe) return NULL;
-	Matrice* L = alloca_matrice(in->colonne, in->colonne);
+	if (in->colonne != 2 || in->righe != 2) return NULL;
+	 
+	Matrice* output = alloca_matrice(2, 2);
 
-	for (int i = 0; i != in->colonne; ++i)
+	double det_d1 = rest_val(in, 0, 0) * rest_val(in, 1, 1);
+	double det_d2 = rest_val(in, 1, 0) * rest_val(in, 0, 1);
+
+	double det = det_d1 - det_d2;
+
+	imposta_valori(output, 0, 0, (rest_val(in, 1, 1) / det));
+	imposta_valori(output, 0, 1, -(rest_val(in, 0, 1) / det));
+	imposta_valori(output, 1, 0, -(rest_val(in, 1, 0) / det));
+	imposta_valori(output, 1, 1, (rest_val(in, 0, 0) / det));
+
+	return output;
+}
+
+//Trasforma matrice in vettore colonna
+Matrice* trasforma_in_vettore(const Matrice* in)
+{
+	//trasforma semplicemente una matrice in un array w*h x 1
+	Matrice* output = alloca_matrice(1, (in->righe * in->colonne));
+
+	for (size_t x = 0; x != in->colonne; ++x)
 	{
-		for (int j = 0; j < (i + 1); ++j)
+		for (size_t y = 0; y != in->righe; ++y)
 		{
-			double s = 0.0;
-			for (int k = 0; k < j; ++k)
-			{
-				s += rest_val(L, k, i) * rest_val(L, k, j);
-			}
-
-			imposta_valori(L, j, i, (i == j) ?
-				sqrt(rest_val(in, i, j) - s) :
-				1.0 / rest_val(L, j, j) * (rest_val(in, j, i) - s));
+			imposta_valori(output, 0, y + (x*in->righe), rest_val(in, x, y));
 		}
 	}
-	return L;
+
+	return output;
 }
 
 //Stampa elementi della matrice
